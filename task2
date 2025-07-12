@@ -1,6 +1,3 @@
-
-
-
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -8,49 +5,30 @@ import seaborn as sns
 from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_squared_error, r2_score
-
-
 data = {
     'Units_Consumed': [120, 250, 175, 300, 200, 400, 350, 500, 600, 450],
     'Cost': [240, 525, 360, 630, 420, 840, 735, 1050, 1260, 945]
 }
 
 df = pd.DataFrame(data)
-
-
 sns.scatterplot(data=df, x='Units_Consumed', y='Cost')
 plt.title("Electricity Cost vs Units Consumed")
 plt.xlabel("Units Consumed")
 plt.ylabel("Cost")
 plt.grid(True)
 plt.show()
-
-
-X = df[['Units_Consumed']]  # Independent variable
-y = df['Cost']              # Dependent variable
-
-
+X = df[['Units_Consumed']] 
+y = df['Cost']              
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-
-
 model = LinearRegression()
 model.fit(X_train, y_train)
-
-
 y_pred = model.predict(X_test)
-
-
 print("Mean Squared Error:", mean_squared_error(y_test, y_pred))
 print("R² Score:", r2_score(y_test, y_pred))
-
-
-new_units = np.array([[700], [800]])  # Predict for 700 and 800 units
+new_units = np.array([[700], [800]])  
 predicted_costs = model.predict(new_units)
-
 for units, cost in zip(new_units.flatten(), predicted_costs):
     print(f"Predicted cost for {units} units: ₹{cost:.2f}")
-
-
 plt.scatter(X, y, color='blue', label='Actual Data')
 plt.plot(X, model.predict(X), color='red', label='Regression Line')
 plt.title('Electricity Cost Prediction')
